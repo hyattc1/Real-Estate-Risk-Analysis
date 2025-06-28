@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Estate Risk Analysis</title>
+    <link rel="stylesheet" href="popup.css">
+    <!-- Chart.js CDN with multiple fallbacks -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.js"></script>
+    <script>
+        // Fallback if Chart.js fails to load
+        if (typeof Chart === 'undefined') {
+            console.log('Chart.js not loaded from primary CDN, trying fallback...');
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js';
+            document.head.appendChild(script);
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>🏠 Real Estate Risk Analysis</h1>
+            <div class="source-badge" id="sourceBadge">Loading...</div>
+        </header>
+
+        <!-- Risk Analysis Dashboard -->
+        <section class="dashboard">
+            <!-- Crime Risk -->
+            <div class="card crime-risk">
+                <h3>🚨 Property Crime Risk</h3>
+                <div class="risk-badge" id="crimeRiskBadge">Loading...</div>
+                <div class="risk-score" id="crimeRiskScore"></div>
+            </div>
+
+            <!-- Price Analysis -->
+            <div class="card price-analysis">
+                <h3>💰 Price Analysis (1 mile radius, similar beds/baths)</h3>
+                <div class="price-comparison">
+                    <div class="price-item">
+                        <span class="label">Median Area Price:</span>
+                        <span class="value" id="medianPrice">-</span>
+                    </div>
+                    <div class="price-item">
+                        <span class="label">Price vs Median:</span>
+                        <span class="value" id="priceVsMedian">-</span>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="priceChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Demographics -->
+            <div class="card demographics">
+                <h3>👥 Demographics (0.5 mile radius)</h3>
+                <div class="demographics-grid">
+                    <div class="demo-item">
+                        <span class="demo-label">White:</span>
+                        <span class="demo-value" id="whitePercent">-</span>
+                    </div>
+                    <div class="demo-item">
+                        <span class="demo-label">Black:</span>
+                        <span class="demo-value" id="blackPercent">-</span>
+                    </div>
+                    <div class="demo-item">
+                        <span class="demo-label">Asian:</span>
+                        <span class="demo-value" id="asianPercent">-</span>
+                    </div>
+                    <div class="demo-item">
+                        <span class="demo-label">Hispanic:</span>
+                        <span class="demo-value" id="hispanicPercent">-</span>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="demographicsChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Income & Rent -->
+            <div class="card income-rent">
+                <h3>💵 Income & Rent Analysis</h3>
+                <div class="income-section">
+                    <div class="income-item">
+                        <span class="label">Median Income:</span>
+                        <span class="value" id="medianIncome">-</span>
+                    </div>
+                </div>
+                <div class="rent-section">
+                    <div class="rent-item">
+                        <span class="label">Estimated Monthly Rent:</span>
+                        <span class="value" id="estimatedRent">-</span>
+                    </div>
+                    <div class="rent-item">
+                        <span class="label">Rent by Room:</span>
+                        <span class="value" id="rentByRoom">-</span>
+                    </div>
+                    <div class="rent-viability">
+                        <span class="label">Rent by Room Viability:</span>
+                        <span class="viability-badge" id="rentViability">-</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Error/Status Messages -->
+        <div class="status-message" id="statusMessage"></div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Data provided for educational purposes only</p>
+        </footer>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html> 

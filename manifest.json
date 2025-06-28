@@ -1,0 +1,43 @@
+{
+    "manifest_version": 3,
+    "name": "Real Estate Risk Analysis — Zillow & Redfin",
+    "version": "1.0",
+    "description": "Analyze risk, cap rate, and rental property returns directly on Zillow and Redfin.",
+    "permissions": [
+        "activeTab",
+        "scripting",
+        "storage"
+    ],
+    "host_permissions": [
+        "*://www.zillow.com/*",
+        "*://www.redfin.com/*",
+        "*://www.realtor.com/*"
+    ],
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "icons/icon16.png",
+            "48": "icons/icon48.png",
+            "128": "icons/icon128.png"
+        }
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "*://www.zillow.com/*",
+                "*://www.redfin.com/*",
+                "*://www.realtor.com/*",
+                "*://localhost/*",
+                "file://*"
+            ],
+            "js": [
+                "content.js"
+            ]
+        }
+    ],
+    "icons": {
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+    }
+}

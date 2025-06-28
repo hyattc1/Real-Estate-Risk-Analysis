@@ -1,0 +1,391 @@
+/* Real Estate Risk Analysis Extension - Popup Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    width: 500px !important;
+    min-width: 500px !important;
+    max-width: 500px !important;
+    max-height: 600px;
+    overflow-y: auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    margin: 0;
+    position: relative;
+}
+
+/* Header */
+.header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 12px 12px 0 0;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.source-badge {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    display: inline-block;
+}
+
+/* Dashboard */
+.dashboard {
+    padding: 20px;
+}
+
+.card {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    border: 1px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.card h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #495057;
+}
+
+/* Crime Risk */
+.risk-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.risk-badge.low {
+    background: #d4edda;
+    color: #155724;
+}
+
+.risk-badge.medium {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.risk-badge.high {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.risk-score {
+    font-size: 12px;
+    color: #666;
+}
+
+/* Price Analysis */
+.price-comparison {
+    margin-bottom: 16px;
+}
+
+.price-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.price-item .label {
+    color: #666;
+}
+
+.price-item .value {
+    font-weight: 600;
+    color: #333;
+}
+
+.chart-container {
+    height: 200px;
+    margin-top: 12px;
+}
+
+/* Demographics */
+.demographics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.demo-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+}
+
+.demo-label {
+    color: #666;
+}
+
+.demo-value {
+    font-weight: 600;
+    color: #333;
+}
+
+/* Income & Rent */
+.income-section, .rent-section {
+    margin-bottom: 16px;
+}
+
+.income-item, .rent-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.income-item .label, .rent-item .label {
+    color: #666;
+}
+
+.income-item .value, .rent-item .value {
+    font-weight: 600;
+    color: #333;
+}
+
+.rent-viability {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+    font-size: 13px;
+}
+
+.viability-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.viability-badge.viable {
+    background: #d4edda;
+    color: #155724;
+}
+
+.viability-badge.less-viable {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* Investment Metrics */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.metric-item {
+    text-align: center;
+    padding: 12px 8px;
+    background: white;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+}
+
+.metric-label {
+    display: block;
+    font-size: 11px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.metric-value {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+}
+
+.expenses-input {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.expenses-input label {
+    font-size: 13px;
+    color: #666;
+    font-weight: 500;
+}
+
+.expenses-input input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.expenses-input input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.1);
+}
+
+.expenses-input button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.expenses-input button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.expenses-input button:active {
+    transform: translateY(0);
+}
+
+/* Status Messages */
+.status-message {
+    padding: 12px 20px;
+    margin: 0 20px 20px;
+    border-radius: 6px;
+    font-size: 13px;
+    display: none;
+}
+
+.status-message.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    display: block;
+}
+
+.status-message.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    display: block;
+}
+
+.status-message.info {
+    background: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+    display: block;
+}
+
+/* Footer */
+.footer {
+    padding: 16px 20px;
+    text-align: center;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    border-radius: 0 0 12px 12px;
+}
+
+.footer p {
+    font-size: 11px;
+    color: #666;
+    margin: 0;
+}
+
+/* Loading States */
+.loading {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-style: italic;
+}
+
+/* Responsive Design - Disabled to prevent width collapsing */
+/*
+@media (max-width: 500px) {
+    .container {
+        width: 100%;
+        border-radius: 0;
+    }
+    
+    .header {
+        border-radius: 0;
+    }
+    
+    .footer {
+        border-radius: 0;
+    }
+}
+*/
+
+/* Scrollbar Styling */
+.container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.container::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.container::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Animation for loading states */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.loading {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Chart styling overrides */
+.chart-container canvas {
+    border-radius: 6px;
+} 
