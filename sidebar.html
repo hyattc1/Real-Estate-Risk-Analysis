@@ -1,0 +1,196 @@
+<!-- Floating Sidebar HTML Structure -->
+<div class="real-estate-sidebar minimized" id="realEstateSidebar">
+    <!-- Minimized toggle button -->
+    <div class="sidebar-toggle" id="sidebarToggle">
+        🏠
+    </div>
+    
+    <!-- Expanded content -->
+    <div class="sidebar-content" id="sidebarContent">
+        <!-- Header -->
+        <div class="sidebar-header">
+            <div>
+                <h1>🏠 Real Estate Risk Analysis</h1>
+                <div class="source-badge" id="sourceBadge">Loading...</div>
+            </div>
+            <button class="sidebar-close" id="sidebarClose">×</button>
+        </div>
+        
+        <!-- Dashboard -->
+        <div class="sidebar-dashboard" id="sidebarDashboard">
+            <!-- Status Message -->
+            <div class="status-message" id="statusMessage"></div>
+            
+            <!-- 1. Price Analysis Section -->
+            <div class="section-card">
+                <div class="section-header" data-section="price-analysis">
+                    <h3>💰 Price Analysis</h3>
+                    <button class="section-toggle" data-section="price-analysis">▼</button>
+                </div>
+                <div class="section-content" id="price-analysis-content">
+                    <div class="data-item">
+                        <span class="label">Median Area Price:</span>
+                        <span class="value" id="medianPrice">-</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="label">Price vs Median:</span>
+                        <span class="value" id="priceVsMedian">-</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="label">Price per Sqft:</span>
+                        <span class="value" id="pricePerSqft">-</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="label">Market Position:</span>
+                        <span class="outlier-badge" id="marketPosition">-</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="priceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 2. Median Income Section -->
+            <div class="section-card">
+                <div class="section-header" data-section="median-income">
+                    <h3>💰 Median Income</h3>
+                    <button class="section-toggle" data-section="median-income">▼</button>
+                </div>
+                <div class="section-content" id="median-income-content">
+                    <div class="data-item">
+                        <span class="label">Median Household Income:</span>
+                        <span class="value" id="medianIncome">-</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="label">Rent Affordability:</span>
+                        <span class="value" id="rentAffordability">-</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="label">Neighborhood Stability:</span>
+                        <span class="stability-badge" id="neighborhoodStability">-</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 3. Crime Risk Section -->
+            <div class="section-card">
+                <div class="section-header" data-section="crime-risk">
+                    <h3>🚓 Property Crime Rate</h3>
+                    <button class="section-toggle" data-section="crime-risk">▼</button>
+                </div>
+                <div class="section-content" id="crime-risk-content">
+                    <div class="data-item">
+                        <span class="label">Crime Risk Level:</span>
+                        <span class="crime-badge" id="crimeRiskBadge">Loading...</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="label">Crime Index:</span>
+                        <span class="value" id="crimeRiskScore">-</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="label">Safety Rating:</span>
+                        <span class="safety-badge" id="safetyRating">-</span>
+                    </div>
+                    <div class="crime-map-container">
+                        <div class="crime-map-placeholder">
+                            <p>Crime heatmap visualization</p>
+                            <small>Similar to crimegrade.org property crime maps</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 4. Market Risk Section -->
+            <div class="section-card">
+                <div class="section-header" data-section="market-risk">
+                    <h3>🚩 Market Risk Analysis</h3>
+                    <button class="section-toggle" data-section="market-risk">▼</button>
+                </div>
+                <div class="section-content" id="market-risk-content">
+                    <div class="risk-factors">
+                        <div class="risk-factor">
+                            <span class="factor-label">Vacancy Rate:</span>
+                            <span class="factor-value" id="vacancyRate">-</span>
+                            <span class="risk-indicator" id="vacancyRisk">-</span>
+                        </div>
+                        <div class="risk-factor">
+                            <span class="factor-label">Population Growth (5yr):</span>
+                            <span class="factor-value" id="populationGrowth">-</span>
+                            <span class="risk-indicator" id="populationRisk">-</span>
+                        </div>
+                        <div class="risk-factor">
+                            <span class="factor-label">Job Growth Rate:</span>
+                            <span class="factor-value" id="jobGrowth">-</span>
+                            <span class="risk-indicator" id="jobRisk">-</span>
+                        </div>
+                    </div>
+                    <div class="overall-risk">
+                        <span class="label">Overall Market Risk:</span>
+                        <span class="market-risk-badge" id="overallMarketRisk">-</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 5. Rent Viability Section -->
+            <div class="section-card">
+                <div class="section-header" data-section="rent-viability">
+                    <h3>🏥 Rent by Room Viability</h3>
+                    <button class="section-toggle" data-section="rent-viability">▼</button>
+                </div>
+                <div class="section-content" id="rent-viability-content">
+                    <div class="data-item">
+                        <span class="label">Nearby Institutions:</span>
+                        <span class="value" id="nearbyInstitutions">-</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="label">Viability Status:</span>
+                        <span class="viability-badge" id="rentViability">-</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="label">Expected Rent Boost:</span>
+                        <span class="value" id="rentBoost">-</span>
+                    </div>
+                    <div class="data-item">
+                        <span class="label">Vacancy Risk Reduction:</span>
+                        <span class="value" id="vacancyReduction">-</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 6. Demographics Section -->
+            <div class="section-card">
+                <div class="section-header" data-section="demographics">
+                    <h3>🌍 Demographics</h3>
+                    <button class="section-toggle" data-section="demographics">▼</button>
+                </div>
+                <div class="section-content" id="demographics-content">
+                    <div class="demographics-grid">
+                        <div class="demo-item">
+                            <span class="demo-label">White:</span>
+                            <span class="demo-value" id="whitePercent">-</span>
+                        </div>
+                        <div class="demo-item">
+                            <span class="demo-label">Black:</span>
+                            <span class="demo-value" id="blackPercent">-</span>
+                        </div>
+                        <div class="demo-item">
+                            <span class="demo-label">Hispanic:</span>
+                            <span class="demo-value" id="hispanicPercent">-</span>
+                        </div>
+                        <div class="demo-item">
+                            <span class="demo-label">Asian:</span>
+                            <span class="demo-value" id="asianPercent">-</span>
+                        </div>
+                        <div class="demo-item">
+                            <span class="demo-label">Other:</span>
+                            <span class="demo-value" id="otherPercent">-</span>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="demographicsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 

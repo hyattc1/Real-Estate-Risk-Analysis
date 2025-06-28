@@ -69,8 +69,8 @@ class RealEstateAnalyzer {
         try {
             this.showStatus('Analyzing property data...', 'info');
             
-            // Generate dummy analysis data (replace with real API calls)
-            this.analysisData = await this.generateDummyAnalysisData();
+            // Generate comprehensive analysis data
+            this.analysisData = await this.generateComprehensiveAnalysisData();
             
             // Longer delay to ensure Chart.js is loaded
             await new Promise(resolve => setTimeout(resolve, 1500));
@@ -80,18 +80,12 @@ class RealEstateAnalyzer {
                 console.error('Chart.js still not loaded after delay');
                 this.showStatus('Chart library not available. Data analysis complete.', 'info');
                 // Still update the data displays even without charts
-                this.updateCrimeRisk();
-                this.updatePriceAnalysis();
-                this.updateDemographics();
-                this.updateIncomeAndRent();
+                this.updateAllSections();
                 return;
             }
             
-            // Update all analysis sections
-            this.updateCrimeRisk();
-            this.updatePriceAnalysis();
-            this.updateDemographics();
-            this.updateIncomeAndRent();
+            // Update all analysis sections in order
+            this.updateAllSections();
             
             this.showStatus('Analysis complete!', 'success');
             setTimeout(() => this.hideStatus(), 3000);
@@ -102,86 +96,107 @@ class RealEstateAnalyzer {
         }
     }
 
-    // Generate dummy analysis data (replace with real API calls)
-    async generateDummyAnalysisData() {
+    // Update all sections in the correct order
+    updateAllSections() {
+        this.updatePriceAnalysis();
+        this.updateMedianIncome();
+        this.updateCrimeRisk();
+        this.updateMarketRisk();
+        this.updateRentViability();
+        this.updateDemographics();
+    }
+
+    // Generate comprehensive analysis data
+    async generateComprehensiveAnalysisData() {
         // Simulate API delay
         await new Promise(resolve => setTimeout(resolve, 1000));
         
         const basePrice = this.propertyData?.price || 500000;
         
-        // Generate more realistic median price based on property characteristics
-        const medianPrice = this.calculateRealisticMedianPrice();
-        
-        // Generate realistic crime risk based on property data
-        const crimeRisk = this.calculateRealisticCrimeRisk();
-        
-        // Generate demographics that add up to 100%
-        const demographics = this.generateRealisticDemographics();
-        
         return {
-            crime: {
-                risk: crimeRisk.level,
-                score: crimeRisk.score,
-                index: crimeRisk.index
-            },
-            demographics: demographics,
-            income: {
-                median: Math.floor(Math.random() * 50000) + 50000
-            },
-            rent: {
-                estimated: Math.floor(basePrice * 0.005 + Math.random() * 1000),
-                byRoom: Math.floor(basePrice * 0.008 + Math.random() * 1500)
-            },
-            priceAnalysis: {
-                median: Math.floor(medianPrice),
-                comps: this.generatePriceComps(basePrice),
-                distribution: this.generatePriceDistribution(basePrice)
-            },
-            rentViability: {
-                viable: Math.random() > 0.3, // 70% chance of being viable
-                nearbyInstitutions: Math.floor(Math.random() * 5) + 1
-            }
+            // 1. Price Analysis
+            priceAnalysis: this.generatePriceAnalysisData(basePrice),
+            
+            // 2. Median Income
+            medianIncome: this.generateMedianIncomeData(basePrice),
+            
+            // 3. Crime Risk
+            crimeRisk: this.calculateRealisticCrimeRisk(),
+            
+            // 4. Market Risk
+            marketRisk: this.generateMarketRiskData(),
+            
+            // 5. Rent by Room Viability
+            rentViability: this.generateRentViabilityData(),
+            
+            // 6. Demographics
+            demographics: this.generateRealisticDemographics()
         };
     }
 
-    // Generate realistic demographics that add up to 100%
-    generateRealisticDemographics() {
-        // Generate base percentages
-        let white = Math.floor(Math.random() * 60) + 20; // 20-80%
-        let black = Math.floor(Math.random() * 30) + 5;  // 5-35%
-        let asian = Math.floor(Math.random() * 20) + 2;  // 2-22%
-        let hispanic = Math.floor(Math.random() * 40) + 5; // 5-45%
+    // 1. Generate price analysis data
+    generatePriceAnalysisData(basePrice) {
+        const medianPrice = this.calculateRealisticMedianPrice();
+        const pricePerSqft = basePrice / (this.propertyData?.squareFootage || 2000);
+        const medianPricePerSqft = medianPrice / (this.propertyData?.squareFootage || 2000);
         
-        // Calculate total
-        let total = white + black + asian + hispanic;
+        // Generate comparable properties
+        const comps = this.generatePriceComps(basePrice);
         
-        // Normalize to 100%
-        white = Math.round((white / total) * 100);
-        black = Math.round((black / total) * 100);
-        asian = Math.round((asian / total) * 100);
-        hispanic = Math.round((hispanic / total) * 100);
-        
-        // Adjust for rounding errors to ensure total = 100
-        const newTotal = white + black + asian + hispanic;
-        if (newTotal !== 100) {
-            // Add the difference to the largest percentage
-            const diff = 100 - newTotal;
-            if (white >= black && white >= asian && white >= hispanic) {
-                white += diff;
-            } else if (black >= asian && black >= hispanic) {
-                black += diff;
-            } else if (asian >= hispanic) {
-                asian += diff;
-            } else {
-                hispanic += diff;
-            }
-        }
+        // Calculate market position
+        const pricePercentile = this.calculatePricePercentile(basePrice, comps);
+        const marketPosition = this.determineMarketPosition(pricePercentile);
         
         return {
-            white: white,
-            black: black,
-            asian: asian,
-            hispanic: hispanic
+            median: Math.floor(medianPrice),
+            pricePerSqft: Math.round(pricePerSqft),
+            medianPricePerSqft: Math.round(medianPricePerSqft),
+            comps: comps,
+            marketPosition: marketPosition,
+            pricePercentile: pricePercentile
+        };
+    }
+
+    // 2. Generate median income data
+    generateMedianIncomeData(basePrice) {
+        // Base income on property price and location
+        const baseIncome = this.calculateRealisticMedianIncome();
+        const rentAffordability = this.calculateRentAffordability(baseIncome, basePrice);
+        const stability = this.determineNeighborhoodStability(baseIncome);
+        
+        return {
+            median: baseIncome,
+            rentAffordability: rentAffordability,
+            stability: stability
+        };
+    }
+
+    // 4. Generate market risk data
+    generateMarketRiskData() {
+        const vacancyRate = Math.floor(Math.random() * 15) + 5; // 5-20%
+        const populationGrowth = (Math.random() - 0.5) * 10; // -5% to +5%
+        const jobGrowth = (Math.random() - 0.5) * 6; // -3% to +3%
+        
+        return {
+            vacancyRate: vacancyRate,
+            populationGrowth: populationGrowth.toFixed(1),
+            jobGrowth: jobGrowth.toFixed(1),
+            overallRisk: this.calculateOverallMarketRisk(vacancyRate, populationGrowth, jobGrowth)
+        };
+    }
+
+    // 5. Generate rent by room viability data
+    generateRentViabilityData() {
+        const nearbyInstitutions = Math.floor(Math.random() * 8) + 1;
+        const isViable = nearbyInstitutions >= 3;
+        const rentBoost = isViable ? Math.floor(Math.random() * 20) + 10 : 0; // 10-30% boost
+        const vacancyReduction = isViable ? Math.floor(Math.random() * 15) + 5 : 0; // 5-20% reduction
+        
+        return {
+            nearbyInstitutions: nearbyInstitutions,
+            viable: isViable,
+            rentBoost: rentBoost,
+            vacancyReduction: vacancyReduction
         };
     }
 
@@ -223,6 +238,97 @@ class RealEstateAnalyzer {
         medianPrice *= (1 + randomVariation);
         
         return Math.floor(medianPrice);
+    }
+
+    // Calculate realistic median income
+    calculateRealisticMedianIncome() {
+        if (!this.propertyData) {
+            return 75000; // Default fallback
+        }
+        
+        const price = this.propertyData.price || 500000;
+        const address = this.propertyData.address || '';
+        
+        // Base income calculation on property price
+        let baseIncome = price * 0.15; // Rough correlation
+        
+        // Adjust based on geographic factors
+        const geoHash = this.hashCode(address);
+        const geoVariation = ((geoHash % 30) - 15) / 100; // ±15% variation
+        baseIncome *= (1 + geoVariation);
+        
+        // Add random variation (±10%)
+        const randomVariation = (Math.random() - 0.5) * 0.2;
+        baseIncome *= (1 + randomVariation);
+        
+        return Math.floor(baseIncome);
+    }
+
+    // Calculate rent affordability
+    calculateRentAffordability(income, propertyPrice) {
+        const estimatedRent = propertyPrice * 0.005; // 0.5% rule
+        const rentToIncomeRatio = (estimatedRent * 12) / income;
+        
+        if (rentToIncomeRatio < 0.25) return 'Excellent';
+        if (rentToIncomeRatio < 0.30) return 'Good';
+        if (rentToIncomeRatio < 0.35) return 'Moderate';
+        return 'Challenging';
+    }
+
+    // Determine neighborhood stability
+    determineNeighborhoodStability(income) {
+        if (income > 100000) return 'Stable';
+        if (income > 60000) return 'Moderate';
+        return 'Unstable';
+    }
+
+    // Calculate price percentile
+    calculatePricePercentile(propertyPrice, comps) {
+        const prices = comps.map(comp => comp.price);
+        prices.push(propertyPrice);
+        prices.sort((a, b) => a - b);
+        
+        const index = prices.indexOf(propertyPrice);
+        return Math.round((index / prices.length) * 100);
+    }
+
+    // Determine market position
+    determineMarketPosition(percentile) {
+        if (percentile >= 90) return { level: 'Top 10%', class: 'top-10' };
+        if (percentile <= 20) return { level: '20% Below Market', class: 'below-20' };
+        return { level: 'Market Rate', class: 'market-rate' };
+    }
+
+    // Calculate overall market risk
+    calculateOverallMarketRisk(vacancyRate, populationGrowth, jobGrowth) {
+        let riskScore = 0;
+        
+        if (vacancyRate > 10) riskScore += 2;
+        if (populationGrowth < 0) riskScore += 2;
+        if (jobGrowth < 0) riskScore += 1;
+        
+        if (riskScore >= 4) return 'High';
+        if (riskScore >= 2) return 'Moderate';
+        return 'Low';
+    }
+
+    // Generate price comps
+    generatePriceComps(basePrice) {
+        const comps = [];
+        const numComps = 15;
+        
+        for (let i = 0; i < numComps; i++) {
+            const variation = (Math.random() - 0.5) * 0.4; // ±20%
+            const compPrice = Math.floor(basePrice * (1 + variation));
+            const compSqft = (this.propertyData?.squareFootage || 2000) * (0.8 + Math.random() * 0.4); // ±20%
+            
+            comps.push({
+                price: compPrice,
+                squareFootage: Math.floor(compSqft)
+            });
+        }
+        
+        return comps;
     }
 
     // Calculate realistic crime risk based on property data
@@ -288,7 +394,7 @@ class RealEstateAnalyzer {
         let level = 'Medium';
         if (crimeIndex < 10) level = 'Very Low';
         else if (crimeIndex < 20) level = 'Low';
-        else if (crimeIndex < 30) level = 'Medium';
+        else if (crimeIndex < 30) level = 'Moderate';
         else if (crimeIndex < 40) level = 'High';
         else level = 'Very High';
         
@@ -390,6 +496,58 @@ class RealEstateAnalyzer {
         return 0;
     }
 
+    // Generate realistic demographics that add up to 100%
+    generateRealisticDemographics() {
+        // Generate base percentages
+        let white = Math.floor(Math.random() * 60) + 20; // 20-80%
+        let black = Math.floor(Math.random() * 30) + 5;  // 5-35%
+        let asian = Math.floor(Math.random() * 20) + 2;  // 2-22%
+        let hispanic = Math.floor(Math.random() * 40) + 5; // 5-45%
+        let other = Math.floor(Math.random() * 10) + 1;   // 1-11%
+        
+        // Calculate total
+        let total = white + black + asian + hispanic + other;
+        
+        // Normalize to 100%
+        white = Math.round((white / total) * 100);
+        black = Math.round((black / total) * 100);
+        asian = Math.round((asian / total) * 100);
+        hispanic = Math.round((hispanic / total) * 100);
+        other = Math.round((other / total) * 100);
+        
+        // Adjust for rounding errors to ensure total = 100
+        const newTotal = white + black + asian + hispanic + other;
+        if (newTotal !== 100) {
+            // Add the difference to the largest percentage
+            const diff = 100 - newTotal;
+            const percentages = [
+                { key: 'white', value: white },
+                { key: 'black', value: black },
+                { key: 'asian', value: asian },
+                { key: 'hispanic', value: hispanic },
+                { key: 'other', value: other }
+            ];
+            
+            const largest = percentages.reduce((max, current) => 
+                current.value > max.value ? current : max
+            );
+            
+            if (largest.key === 'white') white += diff;
+            else if (largest.key === 'black') black += diff;
+            else if (largest.key === 'asian') asian += diff;
+            else if (largest.key === 'hispanic') hispanic += diff;
+            else other += diff;
+        }
+        
+        return {
+            white: white,
+            black: black,
+            asian: asian,
+            hispanic: hispanic,
+            other: other
+        };
+    }
+
     // Simple hash function for consistent results
     hashCode(str) {
         let hash = 0;
@@ -402,71 +560,7 @@ class RealEstateAnalyzer {
         return Math.abs(hash);
     }
 
-    // Generate price comparison data for scatter plot
-    generatePriceComps(basePrice) {
-        const comps = [];
-        const beds = this.propertyData?.bedrooms || 3;
-        const baths = this.propertyData?.bathrooms || 2;
-        
-        // Generate 15-20 similar properties with same bed/bath count
-        for (let i = 0; i < 18; i++) {
-            // Vary price by ±20% for similar properties
-            const priceVariation = 0.8 + (Math.random() * 0.4);
-            const compPrice = Math.floor(basePrice * priceVariation);
-            
-            // Vary square footage slightly
-            const baseSqft = this.propertyData?.squareFootage || 2000;
-            const sqftVariation = 0.9 + (Math.random() * 0.2);
-            const compSqft = Math.floor(baseSqft * sqftVariation);
-            
-            comps.push({
-                price: compPrice,
-                squareFootage: compSqft,
-                bedrooms: beds,
-                bathrooms: baths
-            });
-        }
-        
-        return comps.sort((a, b) => a.price - b.price);
-    }
-
-    // Generate price distribution data
-    generatePriceDistribution(basePrice) {
-        const distribution = [];
-        const min = basePrice * 0.7;
-        const max = basePrice * 1.3;
-        const step = (max - min) / 10;
-        
-        for (let i = 0; i < 10; i++) {
-            const priceRange = min + (i * step);
-            const count = Math.floor(Math.random() * 20) + 1;
-            distribution.push({
-                range: `${Math.floor(priceRange / 1000)}k-${Math.floor((priceRange + step) / 1000)}k`,
-                count: count,
-                min: priceRange,
-                max: priceRange + step
-            });
-        }
-        return distribution;
-    }
-
-    // Update crime risk display
-    updateCrimeRisk() {
-        if (!this.analysisData) return;
-        
-        const crimeData = this.analysisData.crime;
-        console.log('Crime data:', crimeData);
-        
-        const riskBadge = document.getElementById('crimeRiskBadge');
-        const riskScore = document.getElementById('crimeRiskScore');
-        
-        riskBadge.textContent = crimeData.risk;
-        riskBadge.className = `risk-badge ${crimeData.risk.toLowerCase()}`;
-        
-        riskScore.textContent = `Crime Index: ${crimeData.index}/50`;
-    }
-
-    // Update price analysis display
+    // 1. Update price analysis display
     updatePriceAnalysis() {
         if (!this.analysisData || !this.propertyData) return;
         
@@ -476,7 +570,7 @@ class RealEstateAnalyzer {
         console.log('Price analysis data:', priceData);
         console.log('Property price:', propertyPrice);
         
-        // Update price comparison (removed property price display)
+        // Update price comparison
         document.getElementById('medianPrice').textContent = `$${priceData.median.toLocaleString()}`;
         
         const priceDiff = propertyPrice ? ((propertyPrice - priceData.median) / priceData.median * 100) : 0;
@@ -484,19 +578,139 @@ class RealEstateAnalyzer {
         priceVsMedian.textContent = `${priceDiff > 0 ? '+' : ''}${priceDiff.toFixed(1)}%`;
         priceVsMedian.style.color = priceDiff > 0 ? '#dc3545' : '#28a745';
         
-        // Create scatter plot for price analysis
-        this.createPriceScatterPlot(priceData.comps, propertyPrice);
+        // Update price per sqft
+        document.getElementById('pricePerSqft').textContent = `$${priceData.pricePerSqft.toLocaleString()}`;
+        
+        // Update market position
+        const marketPositionElement = document.getElementById('marketPosition');
+        marketPositionElement.textContent = priceData.marketPosition.level;
+        marketPositionElement.className = `outlier-badge ${priceData.marketPosition.class}`;
+        
+        // Create boxplot for price analysis
+        this.createPriceBoxplot(priceData.comps, propertyPrice);
     }
 
-    // Create scatter plot for price analysis
-    createPriceScatterPlot(comps, propertyPrice) {
+    // 2. Update median income display
+    updateMedianIncome() {
+        if (!this.analysisData) return;
+        
+        const incomeData = this.analysisData.medianIncome;
+        
+        document.getElementById('medianIncome').textContent = `$${incomeData.median.toLocaleString()}`;
+        document.getElementById('rentAffordability').textContent = incomeData.rentAffordability;
+        
+        const stabilityBadge = document.getElementById('neighborhoodStability');
+        stabilityBadge.textContent = incomeData.stability;
+        stabilityBadge.className = `stability-badge ${incomeData.stability.toLowerCase()}`;
+    }
+
+    // 3. Update crime risk display
+    updateCrimeRisk() {
+        if (!this.analysisData) return;
+        
+        const crimeData = this.analysisData.crimeRisk;
+        console.log('Crime data:', crimeData);
+        
+        const riskBadge = document.getElementById('crimeRiskBadge');
+        const riskScore = document.getElementById('crimeRiskScore');
+        const safetyRating = document.getElementById('safetyRating');
+        
+        riskBadge.textContent = crimeData.level;
+        riskBadge.className = `crime-badge ${crimeData.level.toLowerCase().replace(' ', '-')}`;
+        
+        riskScore.textContent = `Crime Index: ${crimeData.index}/50`;
+        
+        // Set safety rating based on crime level
+        let safety = 'Safe';
+        let safetyClass = 'safe';
+        if (crimeData.level === 'High' || crimeData.level === 'Very High') {
+            safety = 'Danger';
+            safetyClass = 'danger';
+        } else if (crimeData.level === 'Moderate') {
+            safety = 'Caution';
+            safetyClass = 'caution';
+        }
+        
+        safetyRating.textContent = safety;
+        safetyRating.className = `safety-badge ${safetyClass}`;
+    }
+
+    // 4. Update market risk display
+    updateMarketRisk() {
+        if (!this.analysisData) return;
+        
+        const marketData = this.analysisData.marketRisk;
+        
+        // Update risk factors
+        document.getElementById('vacancyRate').textContent = `${marketData.vacancyRate}%`;
+        document.getElementById('populationGrowth').textContent = `${marketData.populationGrowth}%`;
+        document.getElementById('jobGrowth').textContent = `${marketData.jobGrowth}%`;
+        
+        // Set risk indicators
+        const vacancyRisk = document.getElementById('vacancyRisk');
+        const populationRisk = document.getElementById('populationRisk');
+        const jobRisk = document.getElementById('jobRisk');
+        
+        vacancyRisk.textContent = marketData.vacancyRate > 10 ? 'High' : 'Low';
+        vacancyRisk.className = `risk-indicator ${marketData.vacancyRate > 10 ? 'high' : 'low'}`;
+        
+        populationRisk.textContent = parseFloat(marketData.populationGrowth) < 0 ? 'High' : 'Low';
+        populationRisk.className = `risk-indicator ${parseFloat(marketData.populationGrowth) < 0 ? 'high' : 'low'}`;
+        
+        jobRisk.textContent = parseFloat(marketData.jobGrowth) < 0 ? 'High' : 'Low';
+        jobRisk.className = `risk-indicator ${parseFloat(marketData.jobGrowth) < 0 ? 'high' : 'low'}`;
+        
+        // Update overall market risk
+        const overallRisk = document.getElementById('overallMarketRisk');
+        overallRisk.textContent = marketData.overallRisk;
+        overallRisk.className = `market-risk-badge ${marketData.overallRisk.toLowerCase()}`;
+    }
+
+    // 5. Update rent viability display
+    updateRentViability() {
+        if (!this.analysisData) return;
+        
+        const viabilityData = this.analysisData.rentViability;
+        
+        document.getElementById('nearbyInstitutions').textContent = `${viabilityData.nearbyInstitutions} institutions`;
+        document.getElementById('rentBoost').textContent = viabilityData.viable ? `+${viabilityData.rentBoost}%` : 'N/A';
+        document.getElementById('vacancyReduction').textContent = viabilityData.viable ? `-${viabilityData.vacancyReduction}%` : 'N/A';
+        
+        const viabilityBadge = document.getElementById('rentViability');
+        if (viabilityData.viable) {
+            viabilityBadge.textContent = '✅ Viable';
+            viabilityBadge.className = 'viability-badge viable';
+        } else {
+            viabilityBadge.textContent = '⚠️ Less Viable';
+            viabilityBadge.className = 'viability-badge less-viable';
+        }
+    }
+
+    // 6. Update demographics display
+    updateDemographics() {
+        if (!this.analysisData) return;
+        
+        const demoData = this.analysisData.demographics;
+        
+        document.getElementById('whitePercent').textContent = `${demoData.white}%`;
+        document.getElementById('blackPercent').textContent = `${demoData.black}%`;
+        document.getElementById('hispanicPercent').textContent = `${demoData.hispanic}%`;
+        document.getElementById('asianPercent').textContent = `${demoData.asian}%`;
+        document.getElementById('otherPercent').textContent = `${demoData.other}%`;
+        
+        // Create demographics chart
+        this.createDemographicsChart(demoData);
+    }
+
+    // Create boxplot for price analysis
+    createPriceBoxplot(comps, propertyPrice) {
         try {
             // Check if Chart.js is loaded
             if (typeof Chart === 'undefined') {
                 console.error('Chart.js not loaded');
                 const chartContainer = document.querySelector('.price-analysis .chart-container');
                 if (chartContainer) {
-                    chartContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">Chart.js not loaded. Similar properties data available above.</div>';
+                    chartContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">Chart.js not loaded. Price analysis data available above.</div>';
                 }
                 return;
             }
@@ -517,36 +731,61 @@ class RealEstateAnalyzer {
                 this.charts.priceChart.destroy();
             }
             
-            // Prepare data for scatter plot
-            const compData = comps.map(comp => ({
-                x: comp.squareFootage,
-                y: comp.price
-            }));
-            
-            // Add current property as a special point
-            const currentProperty = {
-                x: this.propertyData?.squareFootage || 2000,
-                y: propertyPrice || 500000
-            };
+            // Calculate boxplot statistics
+            const prices = comps.map(comp => comp.price).sort((a, b) => a - b);
+            const q1 = prices[Math.floor(prices.length * 0.25)];
+            const q3 = prices[Math.floor(prices.length * 0.75)];
+            const median = prices[Math.floor(prices.length * 0.5)];
+            const min = prices[0];
+            const max = prices[prices.length - 1];
             
             this.charts.priceChart = new Chart(ctx, {
-                type: 'scatter',
+                type: 'bar',
                 data: {
+                    labels: ['Price Distribution'],
                     datasets: [
                         {
-                            label: 'Similar Properties',
-                            data: compData,
+                            label: 'Min',
+                            data: [min],
                             backgroundColor: 'rgba(102, 126, 234, 0.6)',
                             borderColor: 'rgba(102, 126, 234, 1)',
-                            borderWidth: 1,
-                            pointRadius: 4
+                            borderWidth: 1
                         },
                         {
-                            label: 'Current Property',
-                            data: [currentProperty],
+                            label: 'Q1',
+                            data: [q1],
+                            backgroundColor: 'rgba(118, 75, 162, 0.6)',
+                            borderColor: 'rgba(118, 75, 162, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Median',
+                            data: [median],
+                            backgroundColor: 'rgba(240, 147, 251, 0.6)',
+                            borderColor: 'rgba(240, 147, 251, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Q3',
+                            data: [q3],
+                            backgroundColor: 'rgba(245, 87, 108, 0.6)',
+                            borderColor: 'rgba(245, 87, 108, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Max',
+                            data: [max],
+                            backgroundColor: 'rgba(255, 193, 7, 0.6)',
+                            borderColor: 'rgba(255, 193, 7, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Property Price',
+                            data: [propertyPrice],
                             backgroundColor: 'rgba(220, 53, 69, 0.8)',
                             borderColor: 'rgba(220, 53, 69, 1)',
                             borderWidth: 2,
+                            type: 'line',
                             pointRadius: 6,
                             pointStyle: 'star'
                         }
@@ -563,23 +802,12 @@ class RealEstateAnalyzer {
                         tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                    return `${context.dataset.label}: $${context.parsed.y.toLocaleString()} | ${context.parsed.x.toLocaleString()} sqft`;
+                                    return `${context.dataset.label}: $${context.parsed.y.toLocaleString()}`;
                                 }
                             }
                         }
                     },
                     scales: {
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Square Footage'
-                            },
-                            ticks: {
-                                callback: function(value) {
-                                    return value.toLocaleString() + ' sqft';
-                                }
-                            }
-                        },
                         y: {
                             title: {
                                 display: true,
@@ -595,28 +823,13 @@ class RealEstateAnalyzer {
                 }
             });
         } catch (error) {
-            console.error('Error creating price scatter plot:', error);
+            console.error('Error creating price boxplot:', error);
             // Fallback: show simple text instead of chart
             const chartContainer = document.querySelector('.price-analysis .chart-container');
             if (chartContainer) {
-                chartContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">Chart loading failed. Similar properties data available above.</div>';
+                chartContainer.innerHTML = '<div style="text-align: center; padding: 20px; color: #666;">Chart loading failed. Price analysis data available above.</div>';
             }
         }
-    }
-
-    // Update demographics display
-    updateDemographics() {
-        if (!this.analysisData) return;
-        
-        const demoData = this.analysisData.demographics;
-        
-        document.getElementById('whitePercent').textContent = `${demoData.white}%`;
-        document.getElementById('blackPercent').textContent = `${demoData.black}%`;
-        document.getElementById('asianPercent').textContent = `${demoData.asian}%`;
-        document.getElementById('hispanicPercent').textContent = `${demoData.hispanic}%`;
-        
-        // Create demographics chart
-        this.createDemographicsChart(demoData);
     }
 
     // Create demographics chart
@@ -651,14 +864,15 @@ class RealEstateAnalyzer {
             this.charts.demographicsChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['White', 'Black', 'Asian', 'Hispanic'],
+                    labels: ['White', 'Black', 'Hispanic', 'Asian', 'Other'],
                     datasets: [{
-                        data: [demoData.white, demoData.black, demoData.asian, demoData.hispanic],
+                        data: [demoData.white, demoData.black, demoData.hispanic, demoData.asian, demoData.other],
                         backgroundColor: [
                             '#667eea',
                             '#764ba2',
+                            '#f5576c',
                             '#f093fb',
-                            '#f5576c'
+                            '#4facfe'
                         ],
                         borderWidth: 0
                     }]
@@ -687,28 +901,6 @@ class RealEstateAnalyzer {
         }
     }
 
-    // Update income and rent display
-    updateIncomeAndRent() {
-        if (!this.analysisData) return;
-        
-        const incomeData = this.analysisData.income;
-        const rentData = this.analysisData.rent;
-        const viabilityData = this.analysisData.rentViability;
-        
-        document.getElementById('medianIncome').textContent = `$${incomeData.median.toLocaleString()}`;
-        document.getElementById('estimatedRent').textContent = `$${rentData.estimated.toLocaleString()}`;
-        document.getElementById('rentByRoom').textContent = `$${rentData.byRoom.toLocaleString()}`;
-        
-        const viabilityBadge = document.getElementById('rentViability');
-        if (viabilityData.viable) {
-            viabilityBadge.textContent = '✅ Viable';
-            viabilityBadge.className = 'viability-badge viable';
-        } else {
-            viabilityBadge.textContent = '⚠️ Less Viable';
-            viabilityBadge.className = 'viability-badge less-viable';
-        }
-    }
-
     // Show status message
     showStatus(message, type = 'info') {
         const statusElement = document.getElementById('statusMessage');
@@ -723,7 +915,7 @@ class RealEstateAnalyzer {
     }
 }
 
-// Initialize the analyzer when popup loads
+// Initialize the analyzer when the popup loads
 document.addEventListener('DOMContentLoaded', () => {
     new RealEstateAnalyzer();
 });

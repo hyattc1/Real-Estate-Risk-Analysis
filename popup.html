@@ -27,16 +27,9 @@
 
         <!-- Risk Analysis Dashboard -->
         <section class="dashboard">
-            <!-- Crime Risk -->
-            <div class="card crime-risk">
-                <h3>🚨 Property Crime Risk</h3>
-                <div class="risk-badge" id="crimeRiskBadge">Loading...</div>
-                <div class="risk-score" id="crimeRiskScore"></div>
-            </div>
-
-            <!-- Price Analysis -->
+            <!-- 1. Price Analysis -->
             <div class="card price-analysis">
-                <h3>💰 Price Analysis (1 mile radius, similar beds/baths)</h3>
+                <h3>💰 Price Analysis (0.5-1 mile radius, similar properties)</h3>
                 <div class="price-comparison">
                     <div class="price-item">
                         <span class="label">Median Area Price:</span>
@@ -46,15 +39,116 @@
                         <span class="label">Price vs Median:</span>
                         <span class="value" id="priceVsMedian">-</span>
                     </div>
+                    <div class="price-item">
+                        <span class="label">Price per Sqft:</span>
+                        <span class="value" id="pricePerSqft">-</span>
+                    </div>
+                    <div class="price-item">
+                        <span class="label">Market Position:</span>
+                        <span class="outlier-badge" id="marketPosition">-</span>
+                    </div>
                 </div>
                 <div class="chart-container">
                     <canvas id="priceChart"></canvas>
                 </div>
             </div>
 
-            <!-- Demographics -->
+            <!-- 2. Median Income -->
+            <div class="card median-income">
+                <h3>💰 Median Income (0.5 mile radius)</h3>
+                <div class="income-section">
+                    <div class="income-item">
+                        <span class="label">Median Household Income:</span>
+                        <span class="value" id="medianIncome">-</span>
+                    </div>
+                    <div class="income-item">
+                        <span class="label">Rent Affordability:</span>
+                        <span class="value" id="rentAffordability">-</span>
+                    </div>
+                    <div class="income-item">
+                        <span class="label">Neighborhood Stability:</span>
+                        <span class="stability-badge" id="neighborhoodStability">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Property Crime Rate -->
+            <div class="card crime-risk">
+                <h3>🚓 Property Crime Rate</h3>
+                <div class="crime-section">
+                    <div class="crime-item">
+                        <span class="label">Crime Risk Level:</span>
+                        <span class="crime-badge" id="crimeRiskBadge">Loading...</span>
+                    </div>
+                    <div class="crime-item">
+                        <span class="label">Crime Index:</span>
+                        <span class="value" id="crimeRiskScore"></span>
+                    </div>
+                    <div class="crime-item">
+                        <span class="label">Safety Rating:</span>
+                        <span class="safety-badge" id="safetyRating">-</span>
+                    </div>
+                </div>
+                <div class="crime-map-container">
+                    <div class="crime-map-placeholder" id="crimeMapPlaceholder">
+                        <p>Crime heatmap visualization would appear here</p>
+                        <small>Similar to crimegrade.org property crime maps</small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Market Risk Section -->
+            <div class="card market-risk">
+                <h3>🚩 Market Risk Analysis</h3>
+                <div class="risk-factors">
+                    <div class="risk-factor">
+                        <span class="factor-label">Vacancy Rate:</span>
+                        <span class="factor-value" id="vacancyRate">-</span>
+                        <span class="risk-indicator" id="vacancyRisk">-</span>
+                    </div>
+                    <div class="risk-factor">
+                        <span class="factor-label">Population Growth (5yr):</span>
+                        <span class="factor-value" id="populationGrowth">-</span>
+                        <span class="risk-indicator" id="populationRisk">-</span>
+                    </div>
+                    <div class="risk-factor">
+                        <span class="factor-label">Job Growth Rate:</span>
+                        <span class="factor-value" id="jobGrowth">-</span>
+                        <span class="risk-indicator" id="jobRisk">-</span>
+                    </div>
+                </div>
+                <div class="overall-risk">
+                    <span class="label">Overall Market Risk:</span>
+                    <span class="market-risk-badge" id="overallMarketRisk">-</span>
+                </div>
+            </div>
+
+            <!-- 5. Rent by Room Viability -->
+            <div class="card rent-viability">
+                <h3>🏥 Rent by Room Viability</h3>
+                <div class="viability-section">
+                    <div class="viability-item">
+                        <span class="label">Nearby Institutions:</span>
+                        <span class="value" id="nearbyInstitutions">-</span>
+                    </div>
+                    <div class="viability-item">
+                        <span class="label">Viability Status:</span>
+                        <span class="viability-badge" id="rentViability">-</span>
+                    </div>
+                    <div class="viability-item">
+                        <span class="label">Expected Rent Boost:</span>
+                        <span class="value" id="rentBoost">-</span>
+                    </div>
+                    <div class="viability-item">
+                        <span class="label">Vacancy Risk Reduction:</span>
+                        <span class="value" id="vacancyReduction">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Demographics -->
             <div class="card demographics">
-                <h3>👥 Demographics (0.5 mile radius)</h3>
+                <h3>🌍 Demographics (0.5 mile radius)</h3>
                 <div class="demographics-grid">
                     <div class="demo-item">
                         <span class="demo-label">White:</span>
@@ -65,41 +159,20 @@
                         <span class="demo-value" id="blackPercent">-</span>
                     </div>
                     <div class="demo-item">
+                        <span class="demo-label">Hispanic:</span>
+                        <span class="demo-value" id="hispanicPercent">-</span>
+                    </div>
+                    <div class="demo-item">
                         <span class="demo-label">Asian:</span>
                         <span class="demo-value" id="asianPercent">-</span>
                     </div>
                     <div class="demo-item">
-                        <span class="demo-label">Hispanic:</span>
-                        <span class="demo-value" id="hispanicPercent">-</span>
+                        <span class="demo-label">Other:</span>
+                        <span class="demo-value" id="otherPercent">-</span>
                     </div>
                 </div>
                 <div class="chart-container">
                     <canvas id="demographicsChart"></canvas>
-                </div>
-            </div>
-
-            <!-- Income & Rent -->
-            <div class="card income-rent">
-                <h3>💵 Income & Rent Analysis</h3>
-                <div class="income-section">
-                    <div class="income-item">
-                        <span class="label">Median Income:</span>
-                        <span class="value" id="medianIncome">-</span>
-                    </div>
-                </div>
-                <div class="rent-section">
-                    <div class="rent-item">
-                        <span class="label">Estimated Monthly Rent:</span>
-                        <span class="value" id="estimatedRent">-</span>
-                    </div>
-                    <div class="rent-item">
-                        <span class="label">Rent by Room:</span>
-                        <span class="value" id="rentByRoom">-</span>
-                    </div>
-                    <div class="rent-viability">
-                        <span class="label">Rent by Room Viability:</span>
-                        <span class="viability-badge" id="rentViability">-</span>
-                    </div>
                 </div>
             </div>
         </section>
