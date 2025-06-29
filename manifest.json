@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
-    "name": "Real Estate Risk Analysis — Zillow & Redfin",
+    "name": "Propwise — Zillow, Realtor & Redfin Insights",
     "version": "1.0",
-    "description": "Analyze risk, cap rate, and rental property returns directly on Zillow and Redfin.",
+    "description": "Analyze risk, cap rate, and rental property returns directly on Zillow, Realtor, and Redfin.",
     "permissions": [
         "activeTab",
         "scripting",
@@ -13,6 +13,12 @@
         "*://www.redfin.com/*",
         "*://www.realtor.com/*"
     ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_title": "Propwise — Zillow, Realtor & Redfin Insights"
+    },
     "content_scripts": [
         {
             "matches": [
@@ -32,7 +38,7 @@
     ],
     "web_accessible_resources": [
       {
-        "resources": ["sidebar.html"],
+        "resources": ["sidebar.html", "chart.js"],
         "matches": ["<all_urls>"]
       }
     ],

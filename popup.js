@@ -59,7 +59,7 @@ class RealEstateAnalyzer {
     // Update source badge
     updateSourceBadge() {
         const sourceBadge = document.getElementById('sourceBadge');
-        if (this.propertyData) {
+        if (sourceBadge && this.propertyData) {
             sourceBadge.textContent = this.propertyData.source;
         }
     }
@@ -570,21 +570,31 @@ class RealEstateAnalyzer {
         console.log('Price analysis data:', priceData);
         console.log('Property price:', propertyPrice);
         
-        // Update price comparison
-        document.getElementById('medianPrice').textContent = `$${priceData.median.toLocaleString()}`;
+        // Update price comparison with null checks
+        const medianPriceElement = document.getElementById('medianPrice');
+        if (medianPriceElement) {
+            medianPriceElement.textContent = `$${priceData.median.toLocaleString()}`;
+        }
         
-        const priceDiff = propertyPrice ? ((propertyPrice - priceData.median) / priceData.median * 100) : 0;
         const priceVsMedian = document.getElementById('priceVsMedian');
-        priceVsMedian.textContent = `${priceDiff > 0 ? '+' : ''}${priceDiff.toFixed(1)}%`;
-        priceVsMedian.style.color = priceDiff > 0 ? '#dc3545' : '#28a745';
+        if (priceVsMedian) {
+            const priceDiff = propertyPrice ? ((propertyPrice - priceData.median) / priceData.median * 100) : 0;
+            priceVsMedian.textContent = `${priceDiff > 0 ? '+' : ''}${priceDiff.toFixed(1)}%`;
+            priceVsMedian.style.color = priceDiff > 0 ? '#dc3545' : '#28a745';
+        }
         
         // Update price per sqft
-        document.getElementById('pricePerSqft').textContent = `$${priceData.pricePerSqft.toLocaleString()}`;
+        const pricePerSqftElement = document.getElementById('pricePerSqft');
+        if (pricePerSqftElement) {
+            pricePerSqftElement.textContent = `$${priceData.pricePerSqft.toLocaleString()}`;
+        }
         
         // Update market position
         const marketPositionElement = document.getElementById('marketPosition');
-        marketPositionElement.textContent = priceData.marketPosition.level;
-        marketPositionElement.className = `outlier-badge ${priceData.marketPosition.class}`;
+        if (marketPositionElement) {
+            marketPositionElement.textContent = priceData.marketPosition.level;
+            marketPositionElement.className = `outlier-badge ${priceData.marketPosition.class}`;
+        }
         
         // Create boxplot for price analysis
         this.createPriceBoxplot(priceData.comps, propertyPrice);
@@ -596,12 +606,21 @@ class RealEstateAnalyzer {
         
         const incomeData = this.analysisData.medianIncome;
         
-        document.getElementById('medianIncome').textContent = `$${incomeData.median.toLocaleString()}`;
-        document.getElementById('rentAffordability').textContent = incomeData.rentAffordability;
+        const medianIncomeElement = document.getElementById('medianIncome');
+        if (medianIncomeElement) {
+            medianIncomeElement.textContent = `$${incomeData.median.toLocaleString()}`;
+        }
+        
+        const rentAffordabilityElement = document.getElementById('rentAffordability');
+        if (rentAffordabilityElement) {
+            rentAffordabilityElement.textContent = incomeData.rentAffordability;
+        }
         
         const stabilityBadge = document.getElementById('neighborhoodStability');
-        stabilityBadge.textContent = incomeData.stability;
-        stabilityBadge.className = `stability-badge ${incomeData.stability.toLowerCase()}`;
+        if (stabilityBadge) {
+            stabilityBadge.textContent = incomeData.stability;
+            stabilityBadge.className = `stability-badge ${incomeData.stability.toLowerCase()}`;
+        }
     }
 
     // 3. Update crime risk display
@@ -615,24 +634,30 @@ class RealEstateAnalyzer {
         const riskScore = document.getElementById('crimeRiskScore');
         const safetyRating = document.getElementById('safetyRating');
         
-        riskBadge.textContent = crimeData.level;
-        riskBadge.className = `crime-badge ${crimeData.level.toLowerCase().replace(' ', '-')}`;
-        
-        riskScore.textContent = `Crime Index: ${crimeData.index}/50`;
-        
-        // Set safety rating based on crime level
-        let safety = 'Safe';
-        let safetyClass = 'safe';
-        if (crimeData.level === 'High' || crimeData.level === 'Very High') {
-            safety = 'Danger';
-            safetyClass = 'danger';
-        } else if (crimeData.level === 'Moderate') {
-            safety = 'Caution';
-            safetyClass = 'caution';
+        if (riskBadge) {
+            riskBadge.textContent = crimeData.level;
+            riskBadge.className = `crime-badge ${crimeData.level.toLowerCase().replace(' ', '-')}`;
         }
         
-        safetyRating.textContent = safety;
-        safetyRating.className = `safety-badge ${safetyClass}`;
+        if (riskScore) {
+            riskScore.textContent = `Crime Index: ${crimeData.index}/50`;
+        }
+        
+        if (safetyRating) {
+            // Set safety rating based on crime level
+            let safety = 'Safe';
+            let safetyClass = 'safe';
+            if (crimeData.level === 'High' || crimeData.level === 'Very High') {
+                safety = 'Danger';
+                safetyClass = 'danger';
+            } else if (crimeData.level === 'Moderate') {
+                safety = 'Caution';
+                safetyClass = 'caution';
+            }
+            
+            safetyRating.textContent = safety;
+            safetyRating.className = `safety-badge ${safetyClass}`;
+        }
     }
 
     // 4. Update market risk display
@@ -641,29 +666,48 @@ class RealEstateAnalyzer {
         
         const marketData = this.analysisData.marketRisk;
         
-        // Update risk factors
-        document.getElementById('vacancyRate').textContent = `${marketData.vacancyRate}%`;
-        document.getElementById('populationGrowth').textContent = `${marketData.populationGrowth}%`;
-        document.getElementById('jobGrowth').textContent = `${marketData.jobGrowth}%`;
+        // Update risk factors with null checks
+        const vacancyRateElement = document.getElementById('vacancyRate');
+        if (vacancyRateElement) {
+            vacancyRateElement.textContent = `${marketData.vacancyRate}%`;
+        }
+        
+        const populationGrowthElement = document.getElementById('populationGrowth');
+        if (populationGrowthElement) {
+            populationGrowthElement.textContent = `${marketData.populationGrowth}%`;
+        }
+        
+        const jobGrowthElement = document.getElementById('jobGrowth');
+        if (jobGrowthElement) {
+            jobGrowthElement.textContent = `${marketData.jobGrowth}%`;
+        }
         
         // Set risk indicators
         const vacancyRisk = document.getElementById('vacancyRisk');
         const populationRisk = document.getElementById('populationRisk');
         const jobRisk = document.getElementById('jobRisk');
         
-        vacancyRisk.textContent = marketData.vacancyRate > 10 ? 'High' : 'Low';
-        vacancyRisk.className = `risk-indicator ${marketData.vacancyRate > 10 ? 'high' : 'low'}`;
+        if (vacancyRisk) {
+            vacancyRisk.textContent = marketData.vacancyRate > 10 ? 'High' : 'Low';
+            vacancyRisk.className = `risk-indicator ${marketData.vacancyRate > 10 ? 'high' : 'low'}`;
+        }
         
-        populationRisk.textContent = parseFloat(marketData.populationGrowth) < 0 ? 'High' : 'Low';
-        populationRisk.className = `risk-indicator ${parseFloat(marketData.populationGrowth) < 0 ? 'high' : 'low'}`;
+        if (populationRisk) {
+            populationRisk.textContent = parseFloat(marketData.populationGrowth) < 0 ? 'High' : 'Low';
+            populationRisk.className = `risk-indicator ${parseFloat(marketData.populationGrowth) < 0 ? 'high' : 'low'}`;
+        }
         
-        jobRisk.textContent = parseFloat(marketData.jobGrowth) < 0 ? 'High' : 'Low';
-        jobRisk.className = `risk-indicator ${parseFloat(marketData.jobGrowth) < 0 ? 'high' : 'low'}`;
+        if (jobRisk) {
+            jobRisk.textContent = parseFloat(marketData.jobGrowth) < 0 ? 'High' : 'Low';
+            jobRisk.className = `risk-indicator ${parseFloat(marketData.jobGrowth) < 0 ? 'high' : 'low'}`;
+        }
         
         // Update overall market risk
         const overallRisk = document.getElementById('overallMarketRisk');
-        overallRisk.textContent = marketData.overallRisk;
-        overallRisk.className = `market-risk-badge ${marketData.overallRisk.toLowerCase()}`;
+        if (overallRisk) {
+            overallRisk.textContent = marketData.overallRisk;
+            overallRisk.className = `market-risk-badge ${marketData.overallRisk.toLowerCase()}`;
+        }
     }
 
     // 5. Update rent viability display
@@ -672,17 +716,30 @@ class RealEstateAnalyzer {
         
         const viabilityData = this.analysisData.rentViability;
         
-        document.getElementById('nearbyInstitutions').textContent = `${viabilityData.nearbyInstitutions} institutions`;
-        document.getElementById('rentBoost').textContent = viabilityData.viable ? `+${viabilityData.rentBoost}%` : 'N/A';
-        document.getElementById('vacancyReduction').textContent = viabilityData.viable ? `-${viabilityData.vacancyReduction}%` : 'N/A';
+        const nearbyInstitutionsElement = document.getElementById('nearbyInstitutions');
+        if (nearbyInstitutionsElement) {
+            nearbyInstitutionsElement.textContent = `${viabilityData.nearbyInstitutions} institutions`;
+        }
+        
+        const rentBoostElement = document.getElementById('rentBoost');
+        if (rentBoostElement) {
+            rentBoostElement.textContent = viabilityData.viable ? `+${viabilityData.rentBoost}%` : 'N/A';
+        }
+        
+        const vacancyReductionElement = document.getElementById('vacancyReduction');
+        if (vacancyReductionElement) {
+            vacancyReductionElement.textContent = viabilityData.viable ? `-${viabilityData.vacancyReduction}%` : 'N/A';
+        }
         
         const viabilityBadge = document.getElementById('rentViability');
-        if (viabilityData.viable) {
-            viabilityBadge.textContent = '✅ Viable';
-            viabilityBadge.className = 'viability-badge viable';
-        } else {
-            viabilityBadge.textContent = '⚠️ Less Viable';
-            viabilityBadge.className = 'viability-badge less-viable';
+        if (viabilityBadge) {
+            if (viabilityData.viable) {
+                viabilityBadge.textContent = '✅ Viable';
+                viabilityBadge.className = 'viability-badge viable';
+            } else {
+                viabilityBadge.textContent = '⚠️ Less Viable';
+                viabilityBadge.className = 'viability-badge less-viable';
+            }
         }
     }
 
@@ -692,11 +749,30 @@ class RealEstateAnalyzer {
         
         const demoData = this.analysisData.demographics;
         
-        document.getElementById('whitePercent').textContent = `${demoData.white}%`;
-        document.getElementById('blackPercent').textContent = `${demoData.black}%`;
-        document.getElementById('hispanicPercent').textContent = `${demoData.hispanic}%`;
-        document.getElementById('asianPercent').textContent = `${demoData.asian}%`;
-        document.getElementById('otherPercent').textContent = `${demoData.other}%`;
+        const whitePercentElement = document.getElementById('whitePercent');
+        if (whitePercentElement) {
+            whitePercentElement.textContent = `${demoData.white}%`;
+        }
+        
+        const blackPercentElement = document.getElementById('blackPercent');
+        if (blackPercentElement) {
+            blackPercentElement.textContent = `${demoData.black}%`;
+        }
+        
+        const hispanicPercentElement = document.getElementById('hispanicPercent');
+        if (hispanicPercentElement) {
+            hispanicPercentElement.textContent = `${demoData.hispanic}%`;
+        }
+        
+        const asianPercentElement = document.getElementById('asianPercent');
+        if (asianPercentElement) {
+            asianPercentElement.textContent = `${demoData.asian}%`;
+        }
+        
+        const otherPercentElement = document.getElementById('otherPercent');
+        if (otherPercentElement) {
+            otherPercentElement.textContent = `${demoData.other}%`;
+        }
         
         // Create demographics chart
         this.createDemographicsChart(demoData);
@@ -904,14 +980,18 @@ class RealEstateAnalyzer {
     // Show status message
     showStatus(message, type = 'info') {
         const statusElement = document.getElementById('statusMessage');
-        statusElement.textContent = message;
-        statusElement.className = `status-message ${type}`;
+        if (statusElement) {
+            statusElement.textContent = message;
+            statusElement.className = `status-message ${type}`;
+        }
     }
 
     // Hide status message
     hideStatus() {
         const statusElement = document.getElementById('statusMessage');
-        statusElement.style.display = 'none';
+        if (statusElement) {
+            statusElement.style.display = 'none';
+        }
     }
 }
 
@@ -929,4 +1009,24 @@ window.addEventListener('beforeunload', () => {
             }
         });
     }
+});
+
+// Popup script for Real Estate Risk Analysis Extension
+document.addEventListener('DOMContentLoaded', function() {
+    // Add click handlers for the buttons
+    const buttons = document.querySelectorAll('.btn');
+    
+    buttons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            // The buttons will open in new tabs via href, but we can add any additional logic here
+            console.log('Opening:', this.href);
+        });
+    });
+    
+    // Close popup when clicking outside (optional)
+    document.addEventListener('click', function(e) {
+        if (e.target === document.body) {
+            window.close();
+        }
+    });
 }); 
