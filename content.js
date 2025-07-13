@@ -81,15 +81,33 @@
                 </div>
 
                 <!-- Section 1: Price Analysis -->
-                <div class="analysis-section" style="
+                <div class="analysis-section" id="section-price" style="
                     background: #f8f9fa;
                     border-radius: 8px;
-                    padding: 15px;
                     margin-bottom: 15px;
                     border-left: 4px solid #3498db;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
                 ">
-                    <h3 style="margin: 0 0 10px 0; color: #2c3e50; font-size: 14px; font-weight: 600;">💰 Price Analysis</h3>
-                    <div style="font-size: 12px; color: #555;">
+                    <div class="section-header" style="
+                        padding: 15px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    ">
+                        <h3 style="margin: 0; color: #2c3e50; font-size: 14px; font-weight: 600;">💰 Price Analysis</h3>
+                        <span class="section-toggle" style="
+                            font-size: 12px;
+                            color: #7f8c8d;
+                            transition: transform 0.2s ease;
+                        ">▼</span>
+                    </div>
+                    <div class="section-content" style="
+                        padding: 0 15px 15px 15px;
+                        font-size: 12px;
+                        color: #555;
+                        display: none;
+                    ">
                         <div style="margin-bottom: 8px;"><strong>Median Price:</strong> $485,000</div>
                         <div style="margin-bottom: 8px;"><strong>Price per Sq Ft:</strong> $242</div>
                         <div style="margin-bottom: 8px;"><strong>Market Position:</strong> <span style="color: #27ae60;">Above Average</span></div>
@@ -98,15 +116,33 @@
                 </div>
 
                 <!-- Section 2: Median Income -->
-                <div class="analysis-section" style="
+                <div class="analysis-section" id="section-income" style="
                     background: #f8f9fa;
                     border-radius: 8px;
-                    padding: 15px;
                     margin-bottom: 15px;
                     border-left: 4px solid #e74c3c;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
                 ">
-                    <h3 style="margin: 0 0 10px 0; color: #2c3e50; font-size: 14px; font-weight: 600;">💵 Median Income</h3>
-                    <div style="font-size: 12px; color: #555;">
+                    <div class="section-header" style="
+                        padding: 15px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    ">
+                        <h3 style="margin: 0; color: #2c3e50; font-size: 14px; font-weight: 600;">💵 Median Income</h3>
+                        <span class="section-toggle" style="
+                            font-size: 12px;
+                            color: #7f8c8d;
+                            transition: transform 0.2s ease;
+                        ">▼</span>
+                    </div>
+                    <div class="section-content" style="
+                        padding: 0 15px 15px 15px;
+                        font-size: 12px;
+                        color: #555;
+                        display: none;
+                    ">
                         <div style="margin-bottom: 8px;"><strong>Median Income:</strong> $72,500</div>
                         <div style="margin-bottom: 8px;"><strong>Rent Affordability:</strong> <span style="color: #e67e22;">Moderate</span></div>
                         <div><strong>Neighborhood Stability:</strong> <span style="color: #27ae60;">Stable</span></div>
@@ -114,15 +150,33 @@
                 </div>
 
                 <!-- Section 3: Crime Risk -->
-                <div class="analysis-section" style="
+                <div class="analysis-section" id="section-crime" style="
                     background: #f8f9fa;
                     border-radius: 8px;
-                    padding: 15px;
                     margin-bottom: 15px;
                     border-left: 4px solid #f39c12;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
                 ">
-                    <h3 style="margin: 0 0 10px 0; color: #2c3e50; font-size: 14px; font-weight: 600;">🚨 Crime Risk</h3>
-                    <div style="font-size: 12px; color: #555;">
+                    <div class="section-header" style="
+                        padding: 15px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    ">
+                        <h3 style="margin: 0; color: #2c3e50; font-size: 14px; font-weight: 600;">🚨 Crime Risk</h3>
+                        <span class="section-toggle" style="
+                            font-size: 12px;
+                            color: #7f8c8d;
+                            transition: transform 0.2s ease;
+                        ">▼</span>
+                    </div>
+                    <div class="section-content" style="
+                        padding: 0 15px 15px 15px;
+                        font-size: 12px;
+                        color: #555;
+                        display: none;
+                    ">
                         <div style="margin-bottom: 8px;"><strong>Overall Risk:</strong> <span style="color: #27ae60;">Low</span></div>
                         <div style="margin-bottom: 8px;"><strong>Violent Crime:</strong> 12 per 1,000</div>
                         <div style="margin-bottom: 8px;"><strong>Property Crime:</strong> 45 per 1,000</div>
@@ -131,15 +185,33 @@
                 </div>
 
                 <!-- Section 4: Market Risk -->
-                <div class="analysis-section" style="
+                <div class="analysis-section" id="section-market" style="
                     background: #f8f9fa;
                     border-radius: 8px;
-                    padding: 15px;
                     margin-bottom: 15px;
                     border-left: 4px solid #9b59b6;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
                 ">
-                    <h3 style="margin: 0 0 10px 0; color: #2c3e50; font-size: 14px; font-weight: 600;">📊 Market Risk</h3>
-                    <div style="font-size: 12px; color: #555;">
+                    <div class="section-header" style="
+                        padding: 15px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    ">
+                        <h3 style="margin: 0; color: #2c3e50; font-size: 14px; font-weight: 600;">📊 Market Risk</h3>
+                        <span class="section-toggle" style="
+                            font-size: 12px;
+                            color: #7f8c8d;
+                            transition: transform 0.2s ease;
+                        ">▼</span>
+                    </div>
+                    <div class="section-content" style="
+                        padding: 0 15px 15px 15px;
+                        font-size: 12px;
+                        color: #555;
+                        display: none;
+                    ">
                         <div style="margin-bottom: 8px;"><strong>Vacancy Rate:</strong> 8.5%</div>
                         <div style="margin-bottom: 8px;"><strong>Population Growth:</strong> +2.1%</div>
                         <div style="margin-bottom: 8px;"><strong>Job Growth:</strong> +1.8%</div>
@@ -148,15 +220,33 @@
                 </div>
 
                 <!-- Section 5: Rent Viability -->
-                <div class="analysis-section" style="
+                <div class="analysis-section" id="section-rent" style="
                     background: #f8f9fa;
                     border-radius: 8px;
-                    padding: 15px;
                     margin-bottom: 15px;
                     border-left: 4px solid #1abc9c;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
                 ">
-                    <h3 style="margin: 0 0 10px 0; color: #2c3e50; font-size: 14px; font-weight: 600;">🏠 Rent Viability</h3>
-                    <div style="font-size: 12px; color: #555;">
+                    <div class="section-header" style="
+                        padding: 15px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    ">
+                        <h3 style="margin: 0; color: #2c3e50; font-size: 14px; font-weight: 600;">🏠 Rent Viability</h3>
+                        <span class="section-toggle" style="
+                            font-size: 12px;
+                            color: #7f8c8d;
+                            transition: transform 0.2s ease;
+                        ">▼</span>
+                    </div>
+                    <div class="section-content" style="
+                        padding: 0 15px 15px 15px;
+                        font-size: 12px;
+                        color: #555;
+                        display: none;
+                    ">
                         <div style="margin-bottom: 8px;"><strong>Nearby Institutions:</strong> 5</div>
                         <div style="margin-bottom: 8px;"><strong>Rent Boost Potential:</strong> +18%</div>
                         <div style="margin-bottom: 8px;"><strong>Vacancy Reduction:</strong> 12%</div>
@@ -165,15 +255,33 @@
                 </div>
 
                 <!-- Section 6: Demographics -->
-                <div class="analysis-section" style="
+                <div class="analysis-section" id="section-demographics" style="
                     background: #f8f9fa;
                     border-radius: 8px;
-                    padding: 15px;
                     margin-bottom: 15px;
                     border-left: 4px solid #34495e;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
                 ">
-                    <h3 style="margin: 0 0 10px 0; color: #2c3e50; font-size: 14px; font-weight: 600;">👥 Demographics</h3>
-                    <div style="font-size: 12px; color: #555;">
+                    <div class="section-header" style="
+                        padding: 15px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    ">
+                        <h3 style="margin: 0; color: #2c3e50; font-size: 14px; font-weight: 600;">👥 Demographics</h3>
+                        <span class="section-toggle" style="
+                            font-size: 12px;
+                            color: #7f8c8d;
+                            transition: transform 0.2s ease;
+                        ">▼</span>
+                    </div>
+                    <div class="section-content" style="
+                        padding: 0 15px 15px 15px;
+                        font-size: 12px;
+                        color: #555;
+                        display: none;
+                    ">
                         <div style="margin-bottom: 8px;"><strong>Median Age:</strong> 38</div>
                         <div style="margin-bottom: 8px;"><strong>Education Level:</strong> 65% College+</div>
                         <div style="margin-bottom: 8px;"><strong>Household Size:</strong> 2.4</div>
@@ -223,9 +331,35 @@
         dashboard.style.display = 'none';
     }
 
+    // Toggle section content
+    function toggleSection(sectionId) {
+        const section = document.getElementById(sectionId);
+        const content = section.querySelector('.section-content');
+        const toggle = section.querySelector('.section-toggle');
+        
+        const isExpanded = content.style.display === 'block';
+        content.style.display = isExpanded ? 'none' : 'block';
+        toggle.textContent = isExpanded ? '▼' : '▲';
+        
+        // Add hover effect
+        if (!isExpanded) {
+            section.style.background = '#f0f2f5';
+        } else {
+            section.style.background = '#f8f9fa';
+        }
+    }
+
     // Add event listeners
     button.addEventListener('click', toggleSidebar);
     closeBtn.addEventListener('click', closeSidebar);
+
+    // Add click listeners to all sections
+    document.getElementById('section-price').addEventListener('click', () => toggleSection('section-price'));
+    document.getElementById('section-income').addEventListener('click', () => toggleSection('section-income'));
+    document.getElementById('section-crime').addEventListener('click', () => toggleSection('section-crime'));
+    document.getElementById('section-market').addEventListener('click', () => toggleSection('section-market'));
+    document.getElementById('section-rent').addEventListener('click', () => toggleSection('section-rent'));
+    document.getElementById('section-demographics').addEventListener('click', () => toggleSection('section-demographics'));
 
     // Close sidebar when clicking outside
     document.addEventListener('click', function(event) {
@@ -239,5 +373,5 @@
         event.stopPropagation();
     });
 
-    console.log('Propwise sidebar loaded successfully!');
+    console.log('Propwise sidebar loaded successfully with collapsible sections!');
 })(); 
