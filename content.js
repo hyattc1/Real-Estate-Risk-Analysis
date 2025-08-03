@@ -262,13 +262,13 @@
             const medianAge = 25 + (parseInt(zipCode) % 30); // 25-55
             const educationLevel = 40 + (parseInt(zipCode) % 40); // 40-80%
             const householdSize = 1.5 + (Math.random() * 2); // 1.5-3.5
+            const seniorPopulation = 10 + (Math.random() * 20); // 10-30%
             
             return {
                 medianAge: medianAge,
                 educationLevel: educationLevel,
                 householdSize: householdSize.toFixed(1),
-                incomeDiversity: getDiversityLevel(),
-                populationDensity: Math.floor(Math.random() * 5000) + 1000 // 1000-6000 per sq mi
+                seniorPopulation: Math.round(seniorPopulation)
             };
         } catch (error) {
             console.error('Error generating demographics data:', error);
@@ -277,8 +277,7 @@
                 medianAge: 35 + Math.floor(Math.random() * 15),
                 educationLevel: 55 + Math.floor(Math.random() * 20),
                 householdSize: (2.2 + Math.random() * 0.8).toFixed(1),
-                incomeDiversity: 'Moderate',
-                populationDensity: 2500 + Math.floor(Math.random() * 2000)
+                seniorPopulation: 15 + Math.floor(Math.random() * 10)
             };
         }
     }
@@ -402,9 +401,9 @@
             if (demographicsData) {
                 updateSection('section-demographics', {
                     'Median Age': demographicsData.medianAge,
-                    'Education Level': `${demographicsData.educationLevel}% College+`,
-                    'Household Size': demographicsData.householdSize,
-                    'Income Diversity': demographicsData.incomeDiversity
+                    'College Educated': `${demographicsData.educationLevel}%`,
+                    'Average Household Occupants': demographicsData.householdSize,
+                    'Senior Population (65+)': `${demographicsData.seniorPopulation}%`
                 });
             }
 
@@ -425,9 +424,11 @@
         
         let html = '';
         for (const [key, value] of Object.entries(data)) {
-            const colorClass = value.includes('High') || value.includes('Low Risk') || value.includes('Stable') ? 'color: #27ae60;' :
-                             value.includes('Moderate') ? 'color: #e67e22;' :
-                             value.includes('High Risk') || value.includes('Declining') ? 'color: #e74c3c;' : '';
+            // Convert value to string to safely use .includes()
+            const valueStr = String(value);
+            const colorClass = valueStr.includes('High') || valueStr.includes('Low Risk') || valueStr.includes('Stable') ? 'color: #27ae60;' :
+                             valueStr.includes('Moderate') ? 'color: #e67e22;' :
+                             valueStr.includes('High Risk') || valueStr.includes('Declining') ? 'color: #e74c3c;' : '';
             
             html += `<div style="margin-bottom: 8px;"><strong>${key}:</strong> <span style="${colorClass}">${value}</span></div>`;
         }
@@ -444,6 +445,9 @@
             z-index: 2147483647;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             transition: all 0.3s ease;
+            width: 400px !important;
+            min-width: 400px !important;
+            max-width: 400px !important;
         ">
             <!-- Minimized Button -->
             <div id="propwise-button" style="
@@ -470,7 +474,9 @@
                 position: absolute;
                 bottom: 70px;
                 left: 0;
-                width: 400px;
+                width: 400px !important;
+                min-width: 400px !important;
+                max-width: 400px !important;
                 max-height: 600px;
                 background: white;
                 border-radius: 12px;
@@ -542,6 +548,9 @@
                         border-left: 4px solid #3498db;
                         cursor: pointer;
                         transition: all 0.2s ease;
+                        width: 100% !important;
+                        min-width: 100% !important;
+                        max-width: 100% !important;
                     ">
                         <div class="section-header" style="
                             padding: 15px;
@@ -574,6 +583,9 @@
                         border-left: 4px solid #e74c3c;
                         cursor: pointer;
                         transition: all 0.2s ease;
+                        width: 100% !important;
+                        min-width: 100% !important;
+                        max-width: 100% !important;
                     ">
                         <div class="section-header" style="
                             padding: 15px;
@@ -606,6 +618,9 @@
                         border-left: 4px solid #f39c12;
                         cursor: pointer;
                         transition: all 0.2s ease;
+                        width: 100% !important;
+                        min-width: 100% !important;
+                        max-width: 100% !important;
                     ">
                         <div class="section-header" style="
                             padding: 15px;
@@ -638,6 +653,9 @@
                         border-left: 4px solid #9b59b6;
                         cursor: pointer;
                         transition: all 0.2s ease;
+                        width: 100% !important;
+                        min-width: 100% !important;
+                        max-width: 100% !important;
                     ">
                         <div class="section-header" style="
                             padding: 15px;
@@ -670,6 +688,9 @@
                         border-left: 4px solid #1abc9c;
                         cursor: pointer;
                         transition: all 0.2s ease;
+                        width: 100% !important;
+                        min-width: 100% !important;
+                        max-width: 100% !important;
                     ">
                         <div class="section-header" style="
                             padding: 15px;
@@ -702,6 +723,9 @@
                         border-left: 4px solid #34495e;
                         cursor: pointer;
                         transition: all 0.2s ease;
+                        width: 100% !important;
+                        min-width: 100% !important;
+                        max-width: 100% !important;
                     ">
                         <div class="section-header" style="
                             padding: 15px;
